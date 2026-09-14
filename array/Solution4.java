@@ -21,6 +21,7 @@ public class Solution4 {
         // 각 수포자의 패턴과 정답이 얼마나 일치하는지 확인
         for (int i = 0; i < answers.length; i++) {
             for (int j = 0; j < pattern.length; j++) {
+                // i % pattern[j].length -> 패턴의 처음으로 돌아가게 만들어주는 연산자임 %
                 if (answers[i] == pattern[j][i % pattern[j].length]) {
                     scores[j]++;
                 }

@@ -1,7 +1,12 @@
 import java.util.*;
 
 // 1. 수학의 행렬곱셈을 하면 된다는데 그게 뭔지 일단 모름.
-// 2. 
+// 2. 행은 가로, 열은 세로
+// 3. arr1 의 열을 첫번째 for 문으로
+// 4. arr2 의 행을 두번째 for 문으로
+// 5. arr1 의 행을 세번째 for 문으로
+// 6. answer[i][j] += arr1[i][k] * arr2[k][j] 이거로 행 곱셈값들을 차근차근 구해서 answer 를 return 하는..
+// 
 
 public class Solution5 {
     

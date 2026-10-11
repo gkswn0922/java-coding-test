@@ -1,24 +1,29 @@
 import java.util.*;
 
 public class Solution12 {
-    public int solution(String s) {
-        Stack<Character> stack = new Stack<>();
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            // 1. 스택이 비어 있지 않고, 현재 문자와 스택의 맨 위 문자가 같으면
-            if (!stack.isEmpty() && stack.peek() == c) {
-                stack.pop(); // 2. 스택의 맨 위 문자 제거
+    public static int[] solution(int[] prices) {
+        int n = prices.length;
+        int[] answer = new int[n]; // 1. 가격이 떨어지지 않은 기간을 저장할 배열
+
+        // 스택을 사용해 이전 가격과 현재 가격 비교
+        Stack<Integer> stack = new Stack<>(); // 2. 스택 생성
+        stack.push(0);
+
+        for (int i = 1; i < n; i++) {
+            while (!stack.isEmpty() && prices[i] < prices[stack.peek()]) {
+                // 3. 가격이 떨어졌으므로 이전 가격의 기간 계산
+                int j = stack.pop();
+                answer[j] = i - j;
             }
-            else {
-                stack.push(c); // 3. 스택에 현재 문자 추가
-            }
+            stack.push(i);
         }
 
-        return stack.isEmpty() ? 1 : 0; // 4. 스택이 비어 있으면 1, 그렇지 않으면 0 반환
+        // 4. 스택에 남아 있는 가격들은 가격이 떨어지지 않은 경우
+        while (!stack.isEmpty()) {
+            int j = stack.pop();
+            answer[j] = n - 1 - j;
+        }
+
+        return answer;
     }
 }
-
-// 1. 문자열 자체를 for 문으로 돌릴거임
-// 2. 스택에 문자열 하나씩 넣는다고 생각하면서, 넣기전 최근에 넣은 문자열과 비교했을 때
-// 3. 그 문자열이랑 같으면 pop 때림
-// 4. 주의할것은 stack 이 비어있으면 안된다는거..

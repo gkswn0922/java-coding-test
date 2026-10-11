@@ -1,41 +1,24 @@
 import java.util.*;
 
 public class Solution11 {
-    
-    public static int solution(String s) {
-        // 1. 괄호 정보를 저장함. 코드를 간결하게 할 수 있음.
-        HashMap<Character, Character> map = new HashMap<>();
-        map.put(')', '(');
-        map.put('}', '{');
-        map.put(']', '[');
-
-        int n = s.length();
-
-        s += s; // 원본 문자열 뒤에 원본 문자열을 이어 붙여서 2번 나오도록 만들어줌
-        int answer = 0;
-
-        // 2. 확인할 문자열의 시작 인덱스를 0부터 n까지 이동
-        A:for (int i = 0; i < n; i++) {
-            ArrayDeque<Character> stack = new ArrayDeque<>();
-            // 3. i(시작 위치) 부터 원본 문자열의 길이인 n개까지 올바른 괄호 문자열인지 확인
-            for (int j = i; j < i + n; j++) {
-                char c = s.charAt(j);
-                // 해시맵 안에 해당 키가 없다면 열리는 괄호임
-                if (!map.containsKey(c)) {
-                    stack.push(c);
-                }
-                else {
-                    // 4. 짝이 맞지 않으면 내부 for문은 종료하고 for문 A로 이동
-                    if(stack.isEmpty() || !stack.pop().equals(map.get(c)))
-                        continue A;
-                }
+    public int solution(String s) {
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            // 1. 스택이 비어 있지 않고, 현재 문자와 스택의 맨 위 문자가 같으면
+            if (!stack.isEmpty() && stack.peek() == c) {
+                stack.pop(); // 2. 스택의 맨 위 문자 제거
             }
-            // 5. 3에서 continue 되지 않았고, 스택이 비어있으면 올바른 괄호 문자열임
-            if (stack.isEmpty())
-                answer++;
+            else {
+                stack.push(c); // 3. 스택에 현재 문자 추가
+            }
         }
 
-        return answer;
-
+        return stack.isEmpty() ? 1 : 0; // 4. 스택이 비어 있으면 1, 그렇지 않으면 0 반환
     }
 }
+
+// 1. 문자열 자체를 for 문으로 돌릴거임
+// 2. 스택에 문자열 하나씩 넣는다고 생각하면서, 넣기전 최근에 넣은 문자열과 비교했을 때
+// 3. 그 문자열이랑 같으면 pop 때림
+// 4. 주의할것은 stack 이 비어있으면 안된다는거..
